@@ -2,6 +2,10 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 import SimpleMoneyManagement.views
 
 class RootView(APIView):
@@ -25,4 +29,6 @@ urlpatterns = [
         path(f'{prefix}/v{api_version}/', RootView.as_view()),
         path(f'{prefix}/v{api_version}/main/', include(router.urls)),
         path(f'{prefix}/v{api_version}/transactions/', include('Transactions.urls')),
+        path(f'{prefix}/v{api_version}/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+        path(f'{prefix}/v{api_version}/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     ]
