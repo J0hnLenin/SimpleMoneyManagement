@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.response import Response
@@ -26,5 +25,4 @@ urlpatterns = [
         path(f'{prefix}/v{api_version}/', RootView.as_view()),
         path(f'{prefix}/v{api_version}/main/', include(router.urls)),
         path(f'{prefix}/v{api_version}/transactions/', include('Transactions.urls')),
-        path('', admin.site.urls),
     ]

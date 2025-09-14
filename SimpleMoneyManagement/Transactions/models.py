@@ -50,8 +50,6 @@ class Category(models.Model):
         TransactionType,
         on_delete=models.PROTECT,
         verbose_name="Типы операции, для которых предназначена категория",
-        null=True,
-        blank=True
     )
     is_active = models.BooleanField(default=True, verbose_name="Активна")
     
