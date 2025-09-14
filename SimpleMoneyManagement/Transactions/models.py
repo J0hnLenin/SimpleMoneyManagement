@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
 from decimal import Decimal
+from django.utils import timezone
 
 class Status(models.Model):
     """Справочник статусов"""
@@ -44,6 +46,13 @@ class Category(models.Model):
         related_name='subcategories',
         verbose_name="Родительская категория"
     )
+    transaction_type = models.ForeignKey(
+        TransactionType,
+        on_delete=models.PROTECT,
+        verbose_name="Типы операции, для которых предназначена категория",
+        null=True,
+        blank=True
+    )
     is_active = models.BooleanField(default=True, verbose_name="Активна")
     
     class Meta:
@@ -57,8 +66,8 @@ class Category(models.Model):
 class Transaction(models.Model):
     """Денежные операции"""
     creation_date = models.DateField(
-        auto_now_add=True,
-        verbose_name="Дата создания записи",
+        default=timezone.now,
+        verbose_name="Дата создания записи", 
         help_text="Заполняется автоматически при создании"
     )
     status = models.ForeignKey(
@@ -66,15 +75,15 @@ class Transaction(models.Model):
         on_delete=models.PROTECT,
         verbose_name="Статус"
     )
-    transaction_type = models.ForeignKey(
-        TransactionType,
-        on_delete=models.PROTECT,
-        verbose_name="Тип операции"
-    )
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
         verbose_name="Категория"
+    )
+    transaction_type = models.ForeignKey(
+        TransactionType,
+        on_delete=models.PROTECT,
+        verbose_name="Тип операции"
     )
     absolute_amount = models.DecimalField(
         max_digits=12,
@@ -108,6 +117,6 @@ class Transaction(models.Model):
     def amount(self):
         """Возвращает числовое значение суммы с правильным знаком"""
         if self.transaction_type.is_positive:
-            return self.amount
+            return self.absolute_amount
         else:
-            return -self.amount
+            return -self.absolute_amount
