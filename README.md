@@ -135,6 +135,10 @@ SimpleMoneyManagement/
 - api/v1/transactions/categories/
 - api/v1/transactions/transactions/
 
+## Архитектура веб-приложения
+
+![Архитектура веб-приложения](docs/C4.png)
+
 ## Интерфейс веб-приложения
 
 ### Админ-панель Django
