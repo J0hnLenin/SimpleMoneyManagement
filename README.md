@@ -1,5 +1,5 @@
 # SimpleMoneyManagement
-
+ 
 **Simple Money Management - это веб-приложение с бэкендом на Django REST Framework и фронтендом на Vue.js 3, контейнеризированное с использованием Docker Compose.**
 
 **Веб-приложение позволяет пользователям
