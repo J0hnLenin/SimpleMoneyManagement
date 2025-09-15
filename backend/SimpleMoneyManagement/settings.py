@@ -110,6 +110,23 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173", 
     "http://0.0.0.0:5173",
     "http://frontend:5173",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000", 
+    "http://0.0.0.0:8000",
+    "http://frontend:8000",
+    "http://localhost:80",
+    "http://127.0.0.1:80", 
+    "http://0.0.0.0:80",
+    "http://frontend:80",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

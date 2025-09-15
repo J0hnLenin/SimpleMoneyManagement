@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.contrib import admin
 from rest_framework import routers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,6 +27,7 @@ api_version = 1
 prefix = 'api'
 
 urlpatterns = [
+        path(f'admin/', admin.site.urls),
         path(f'{prefix}/v{api_version}/', RootView.as_view()),
         path(f'{prefix}/v{api_version}/main/', include(router.urls)),
         path(f'{prefix}/v{api_version}/transactions/', include('Transactions.urls')),
