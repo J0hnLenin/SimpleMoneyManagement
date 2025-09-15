@@ -1,12 +1,24 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-30o%oj^!gkn3k4=$$9@g9axm2iaq9#($a=*)q2ct6o1m(ir_=b'
+# Загрузка переменных окружения
+load_dotenv()
 
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-for-dev')
 
-ALLOWED_HOSTS = []
+DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,13 +63,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SimpleMoneyManagement.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -101,5 +106,10 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Адрес фронтенда
+    "http://localhost:5173",
+    "http://127.0.0.1:5173", 
+    "http://0.0.0.0:5173",
+    "http://frontend:5173",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
